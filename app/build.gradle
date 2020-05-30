@@ -1,0 +1,90 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion Integer.parseInt(ANDROID_SDK_VERSION)
+    buildToolsVersion ANDROID_BUILD_TOOLS_VERSION
+    defaultConfig {
+        minSdkVersion Integer.parseInt(ANDROID_MIN_SDK_VERSION)
+        targetSdkVersion Integer.parseInt(ANDROID_TARGET_VERSION)
+        applicationId "com.dj.challenge.currencyconverter"
+        versionCode 1
+        versionName "1.0"
+
+        buildConfigField("String", "API_KEY", apiKey)
+    }
+
+    dexOptions {
+        javaMaxHeapSize "4g" //specify the heap size for the dex process
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    // kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+
+    // constraint layout
+    implementation 'androidx.constraintlayout:constraintlayout:' + CONSTRAINT_LAYOUT_VERSION
+
+    // android libs
+    implementation 'com.android.support:appcompat-v7:' + ANDROID_SUPPORT_VERSION
+    implementation 'com.android.support:cardview-v7:' + ANDROID_SUPPORT_VERSION
+    implementation 'com.android.support:recyclerview-v7:' + ANDROID_SUPPORT_VERSION
+    implementation 'com.android.support:design:' + ANDROID_SUPPORT_VERSION
+    implementation 'androidx.lifecycle:lifecycle-extensions:' + ANDROID_ARCHITECTURE_COMPONENTS
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:' + ANDROID_ARCHITECTURE_COMPONENTS
+
+    // retrofit + gson
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+    // rx
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava2_version"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+    implementation "androidx.core:core-ktx:" + KOTLIN_CORE
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // dependency injection
+    implementation "com.google.dagger:dagger:$dagger2_version"
+    implementation "com.google.dagger:dagger-android:$dagger2_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger2_version"
+    compileOnly 'javax.annotation:jsr250-api:1.0'
+    implementation 'javax.inject:javax.inject:1'
+
+    // kapt should include in all modules
+    kapt "com.google.dagger:dagger-compiler:$dagger2_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger2_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger2_version"
+
+    // third party
+    implementation 'com.mercari.remotedata:remotedata:1.0.1'
+    implementation "com.github.hadilq.liveevent:liveevent:1.0.1"
+
+    testImplementation 'junit:junit:4.12'
+    testImplementation "org.mockito:mockito-inline:2.28.2"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+}
